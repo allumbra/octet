@@ -96,6 +96,9 @@
     (identical? basic-spec/uint64 type)
     (buffer/write-ulong buff offset length)
 
+    (identical? basic-spec/byte type)
+    (buffer/write-byte buff offset length)
+
     :else
     (throw (ex-info "Invalid reference type: should be int16, int32, int64 and unsigned variants" {}))))
 
