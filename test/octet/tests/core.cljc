@@ -357,7 +357,7 @@
 (t/deftest spec-data-with-assoc-ref-bytes-single
   (let [barr (random-bytes 3)
         spec (buf/spec :bogus1 (buf/int32)
-                       :length (buf/int32)
+                       :length (buf/byte)
                        :bogus2 (buf/int32)
                        :varbytes (buf/ref-bytes :length))
         buffer (buf/allocate 15)]
@@ -366,7 +366,7 @@
                         :bogus2   1
                         :varbytes barr} spec)
     (let [[readed data] (buf/read* buffer spec)]
-      (t/is (= readed 15))
+      (t/is (= readed 12))
       (t/is (:bogus1 data) 1)
       (t/is (:length data) 3)
       (t/is (:bogus2 data) 1)
@@ -376,9 +376,9 @@
   (let [barr1 (random-bytes 3)
         barr2 (random-bytes 3)
         spec (buf/spec :bogus1 (buf/int32)
-                       :length1 (buf/int32)
+                       :length1 (buf/byte)
                        :bogus2 (buf/int32)
-                       :length2 (buf/int32)
+                       :length2 (buf/byte)
                        :varbytes1 (buf/ref-bytes :length1)
                        :bogus3 (buf/int16)
                        :varbytes2 (buf/ref-bytes :length2))
@@ -391,7 +391,7 @@
                         :bogus3    34
                         :varbytes2 barr2} spec)
     (let [[readed data] (buf/read* buffer spec)]
-      (t/is (= readed 24))
+      (t/is (= readed 18))
       (t/is (:bogus1 data) 12)
       (t/is (:length1 data) 3)
       (t/is (:bogus2 data) 23)
